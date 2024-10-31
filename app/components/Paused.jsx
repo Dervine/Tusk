@@ -1,4 +1,4 @@
-const ToDo = ({ tasks, onStatusChange }) => {
+const Paused = ({ tasks, onStatusChange, onDelete }) => {
     return (
       <ul role="list" className="divide-y divide-gray-100">
         {tasks.map((task) => (
@@ -15,11 +15,17 @@ const ToDo = ({ tasks, onStatusChange }) => {
             >
               Start
             </button>
+            <button
+              onClick={() => onDelete(task.email)}
+              className="text-xs text-red-500 hover:text-red-700"
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
     );
   };
   
-  export default ToDo;
+  export default Paused;
   

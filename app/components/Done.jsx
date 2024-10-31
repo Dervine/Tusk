@@ -1,4 +1,4 @@
-const ToDo = ({ tasks }) => {
+const Done = ({ tasks }) => {
     return (
       <ul role="list" className="divide-y divide-gray-100">
         {tasks.map((task) => (
@@ -15,5 +15,5 @@ const ToDo = ({ tasks }) => {
     );
   };
   
-  export default ToDo;
+  export default Done;
   

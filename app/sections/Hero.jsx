@@ -22,7 +22,6 @@ const initialTasks = [
 const Hero = () => {
   const [allTasks, setTasks] = useState(initialTasks);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [newTask, setNewTask] = useState({ name: "", email: "", role: "" });
 
   const handleStatusChange = (email, newStatus) => {
     const updatedTasks = allTasks.map(task => 
@@ -33,6 +32,17 @@ const Hero = () => {
 
   const filterTasksByStatus = (status) => {
     return allTasks.filter(task => task.status === status);
+  };
+
+  const handleDeleteTask = (email) => {
+    const updatedTasks = allTasks.filter(task => task.email !== email);
+    setTasks(updatedTasks);
+  };
+
+  const handleEditTask = (updatedTask) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.email === updatedTask.email ? updatedTask : task))
+    );
   };
 
   const handleAddTask = (newTask) => {
@@ -56,7 +66,7 @@ const Hero = () => {
               </div>
               <div className="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm">
                 <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden">
-                  <ToDo tasks={filterTasksByStatus("Not Started")} onStatusChange={handleStatusChange} />
+                  <ToDo tasks={filterTasksByStatus("Not Started")} onStatusChange={handleStatusChange} onDelete={handleDeleteTask} onEdit={handleEditTask} />
                   <button 
                     onClick={() => setModalOpen(true)} 
                     className="mt-4 w-full py-2 text-white text-xs bg-blue-500 hover:bg-blue-600 rounded"
@@ -87,7 +97,7 @@ const Hero = () => {
                 <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Paused</p>
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
-                <Paused tasks={filterTasksByStatus("Paused")} onStatusChange={handleStatusChange} />
+                <Paused tasks={filterTasksByStatus("Paused")} onStatusChange={handleStatusChange} onDelete={handleDeleteTask} />
               </div>
             </div>
             <div className="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5"></div>

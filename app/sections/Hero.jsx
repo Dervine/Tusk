@@ -5,6 +5,7 @@ import ToDo from "../components/ToDo";
 import InProgress from "../components/InProgress";
 import Paused from "../components/Paused";
 import Done from "../components/Done";
+import AddTaskModal from "../sections/TaskModal";
 
 const initialTasks = [
   { name: 'Leslie Alexander', email: 'leslie.alexander@example.com', role: 'Co-Founder / CEO', status: 'Not Started' },
@@ -34,10 +35,8 @@ const Hero = () => {
     return allTasks.filter(task => task.status === status);
   };
 
-  const handleAddTask = () => {
+  const handleAddTask = (newTask) => {
     setTasks([...allTasks, { ...newTask, status: "Not Started" }]);
-    setNewTask({ name: "", email: "", role: "" });
-    setModalOpen(false);
   };
 
   return (
@@ -110,6 +109,11 @@ const Hero = () => {
           </div>
         </div>
       </div>
+      <AddTaskModal 
+        isOpen={isModalOpen} 
+        onClose={() => setModalOpen(false)} 
+        onAddTask={handleAddTask} 
+      />
     </div>
   );
 };

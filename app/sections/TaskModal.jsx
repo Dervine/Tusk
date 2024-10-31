@@ -1,55 +1,56 @@
-import { useState } from 'react';
+import React from 'react';
 
-const TaskModal = ({ isOpen, onClose, onAddTask }) => {
-  const [taskName, setTaskName] = useState('');
-  const [taskRole, setTaskRole] = useState('');
+const AddTaskModal = ({ isOpen, onClose, onAddTask }) => {
+  const [newTask, setNewTask] = React.useState({ name: "", email: "", role: "" });
 
-  const handleAddTask = () => {
-    if (taskName && taskRole) {
-      onAddTask({ name: taskName, role: taskRole });
-      setTaskName('');
-      setTaskRole('');
-      onClose(); // Close the modal after adding the task
-    }
+  const handleAdd = () => {
+    onAddTask(newTask);
+    setNewTask({ name: "", email: "", role: "" });
+    onClose();
   };
 
-  if (!isOpen) return null; // Don't render anything if the modal is not open
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg p-6 max-w-sm w-full">
-        <h2 className="text-xs font-semibold mb-4">Add New Task</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-8 rounded-lg w-96">
+        <h2 className="text-xs mb-4">Add New Task</h2>
         <input
           type="text"
-          placeholder="Task Name"
-          value={taskName}
-          onChange={(e) => setTaskName(e.target.value)}
-          className="text-xs border p-2 rounded w-full mb-2"
+          placeholder="Name"
+          className="text-xs w-full p-2 mb-4 border rounded"
+          value={newTask.name}
+          onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          className="text-xs w-full p-2 mb-4 border rounded"
+          value={newTask.email}
+          onChange={(e) => setNewTask({ ...newTask, email: e.target.value })}
         />
         <input
           type="text"
-          placeholder="Task Role"
-          value={taskRole}
-          onChange={(e) => setTaskRole(e.target.value)}
-          className="text-xs border p-2 rounded w-full mb-4"
+          placeholder="Role"
+          className="text-xs w-full p-2 mb-4 border rounded"
+          value={newTask.role}
+          onChange={(e) => setNewTask({ ...newTask, role: e.target.value })}
         />
-        <div className="flex justify-end">
-          <button
-            onClick={handleAddTask}
-            className="text-xs bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
-            Add Task
-          </button>
-          <button
-            onClick={onClose}
-            className="text-xs ml-2 bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
-          >
-            Cancel
-          </button>
-        </div>
+        <button 
+          onClick={handleAdd} 
+          className="text-xs w-full py-2 text-white bg-green-500 hover:bg-green-600 rounded"
+        >
+          Add Task
+        </button>
+        <button 
+          onClick={onClose} 
+          className="text-xs w-full py-2 mt-2 text-white bg-red-500 hover:bg-red-600 rounded"
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );
 };
 
-export default TaskModal;
+export default AddTaskModal;

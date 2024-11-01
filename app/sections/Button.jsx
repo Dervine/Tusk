@@ -1,4 +1,4 @@
-const Button = ({ name, isBeam = false, containerClass }) => {
+const Button = ({ title, isBeam = false, containerClass }) => {
     return (
       <button className={`btn ${containerClass}`}>
         {isBeam && (
@@ -7,7 +7,7 @@ const Button = ({ name, isBeam = false, containerClass }) => {
             <span className="btn-ping_dot"></span>
           </span>
         )}
-        {name}
+        {title}
       </button>
     );
   };

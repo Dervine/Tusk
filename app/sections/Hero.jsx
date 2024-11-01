@@ -1,31 +1,34 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ToDo from "../components/ToDo";
 import InProgress from "../components/InProgress";
 import Paused from "../components/Paused";
 import Done from "../components/Done";
 import AddTaskModal from "../sections/TaskModal";
 
-const initialTasks = [
-  { name: 'Leslie Alexander', email: 'leslie.alexander@example.com', role: 'Co-Founder / CEO', status: 'Not Started' },
-  { name: 'Michael Foster', email: 'michael.foster@example.com', role: 'Co-Founder / CTO', status: 'Not Started' },
-  { name: 'Dries Vincent', email: 'dries.vincent@example.com', role: 'Business Relations', status: 'Not Started' },
-  { name: 'Leslie Alexander', email: 'leslie2.alexander@example.com', role: 'Co-Founder / CEO', status: 'In Progress' },
-  { name: 'Michael Foster', email: 'michael2.foster@example.com', role: 'Co-Founder / CTO', status: 'In Progress' },
-  { name: 'Dries Vincent', email: 'dries2.vincent@example.com', role: 'Business Relations', status: 'Paused' },
-  { name: 'Leslie Alexander', email: 'leslie3.alexander@example.com', role: 'Co-Founder / CEO', status: 'Paused' },
-  { name: 'Michael Foster', email: 'michael3.foster@example.com', role: 'Co-Founder / CTO', status: 'Done' },
-  { name: 'Dries Vincent', email: 'dries3.vincent@example.com', role: 'Business Relations', status: 'Done' },
-];
-
 const Hero = () => {
-  const [allTasks, setTasks] = useState(initialTasks);
+  const [allTasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch('/api/tasks');
+        const data = await response.json();
+        setTasks(data);
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleStatusChange = (email, newStatus) => {
+  const handleStatusChange = (id, newStatus) => {
     const updatedTasks = allTasks.map(task => 
-      task.email === email ? { ...task, status: newStatus } : task
+      task.id === id ? { ...task, status: newStatus } : task
     );
     setTasks(updatedTasks);
   };
@@ -34,14 +37,14 @@ const Hero = () => {
     return allTasks.filter(task => task.status === status);
   };
 
-  const handleDeleteTask = (email) => {
-    const updatedTasks = allTasks.filter(task => task.email !== email);
+  const handleDeleteTask = (id) => {
+    const updatedTasks = allTasks.filter(task => task.id !== id);
     setTasks(updatedTasks);
   };
 
   const handleEditTask = (updatedTask) => {
     setTasks((prevTasks) =>
-      prevTasks.map((task) => (task.email === updatedTask.email ? updatedTask : task))
+      prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
     );
   };
 

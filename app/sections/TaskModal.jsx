@@ -1,11 +1,11 @@
 import React from 'react';
 
 const AddTaskModal = ({ isOpen, onClose, onAddTask }) => {
-  const [newTask, setNewTask] = React.useState({ name: "", email: "", role: "" });
+  const [newTask, setNewTask] = React.useState({ title: "", description: "" });
 
   const handleAdd = () => {
     onAddTask(newTask);
-    setNewTask({ name: "", email: "", role: "" });
+    setNewTask({ title: "", description: "" });
     onClose();
   };
 
@@ -17,24 +17,17 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask }) => {
         <h2 className="text-xs mb-4">Add New Task</h2>
         <input
           type="text"
-          placeholder="Name"
+          placeholder="Title"
           className="text-xs w-full p-2 mb-4 border rounded"
-          value={newTask.name}
-          onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          className="text-xs w-full p-2 mb-4 border rounded"
-          value={newTask.email}
-          onChange={(e) => setNewTask({ ...newTask, email: e.target.value })}
+          value={newTask.title}
+          onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
         />
         <input
           type="text"
-          placeholder="Role"
+          placeholder="Description"
           className="text-xs w-full p-2 mb-4 border rounded"
-          value={newTask.role}
-          onChange={(e) => setNewTask({ ...newTask, role: e.target.value })}
+          value={newTask.description}
+          onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
         />
         <button 
           onClick={handleAdd} 

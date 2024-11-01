@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
 
 const EditTaskDialog = ({ isOpen, onClose, task, onSave }) => {
-  const [name, setName] = useState(task?.name || '');
-  const [role, setRole] = useState(task?.role || '');
+  const [title, setName] = useState(task?.title || '');
+  const [description, setDescription] = useState(task?.description || '');
 
-  // Update local state when `task` changes
   useEffect(() => {
     if (task) {
-      setName(task.name);
-      setRole(task.role);
+      setName(task.title);
+      setDescription(task.description);
     }
   }, [task]);
 
   const handleSave = () => {
-    onSave({ ...task, name, role });
+    onSave({ ...task, title, description });
     onClose();
   };
 
@@ -24,20 +23,20 @@ const EditTaskDialog = ({ isOpen, onClose, task, onSave }) => {
       <div className="bg-white p-6 rounded-md shadow-md w-full max-w-md">
         <h3 className="text-xs font-semibold text-gray-900">Edit Task</h3>
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+          <label className="block text-sm font-medium text-gray-700">Title</label>
           <input
             type="text"
-            value={name}
+            value={title}
             onChange={(e) => setName(e.target.value)}
             className="text-xs mt-1 p-2 border border-gray-300 rounded-md w-full"
           />
         </div>
         <div className="mt-4">
-          <label className="block text-xs font-medium text-gray-700">Role</label>
+          <label className="block text-xs font-medium text-gray-700">Description</label>
           <input
             type="text"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             className="text-xs mt-1 p-2 border border-gray-300 rounded-md w-full"
           />
         </div>
